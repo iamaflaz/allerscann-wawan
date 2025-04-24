@@ -2,10 +2,7 @@ class RecognitionResponse {
   final String imgPath;
   final String recognizedText;
 
-  RecognitionResponse({
-    required this.imgPath,
-    required this.recognizedText,
-  });
+  RecognitionResponse({required this.imgPath, required this.recognizedText});
 
   @override
   bool operator ==(covariant RecognitionResponse other) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AllergyProvider with ChangeNotifier {
   // Daftar alergi yang tersedia
@@ -22,6 +23,22 @@ class AllergyProvider with ChangeNotifier {
     } else {
       _selectedAllergies.add(allergy);
     }
-    notifyListeners(); // Memberitahukan perubahan
+    notifyListeners();
+    _saveSelectedAllergies();
+  }
+
+  // Menyimpan pilihan alergi ke SharedPreferences
+  Future<void> _saveSelectedAllergies() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('selectedAllergies', _selectedAllergies);
+  }
+
+  // Mengambil pilihan alergi dari SharedPreferences
+  Future<void> loadSelectedAllergies() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedAllergies = prefs.getStringList('selectedAllergies') ?? [];
+    _selectedAllergies.clear();
+    _selectedAllergies.addAll(savedAllergies);
+    notifyListeners();
   }
 }
